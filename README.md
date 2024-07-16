@@ -1,3 +1,5 @@
+# Banking Java application
+
 Clone the project down, open up the pom.xml using IntelliJ - be sure to open as a project.
 
 
