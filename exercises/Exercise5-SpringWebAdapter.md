@@ -34,10 +34,15 @@ Now we’re reached the _dependencies_ section, which is where things get intere
 You will want to add this section to your pom.xml as well:
 
 ```
-  <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-web</artifactId>
-    </dependency>
+<dependencies>
+        <!-- Spring Boot Web Starter -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- Additional dependencies can be added here -->
+    </dependencies>
 ```
 As we've seen, this is a fully running, functional project.
 
@@ -70,17 +75,17 @@ By default, this scans classes in the same package or below. In our case, this i
 # Building out a web view in Spring
 
 ## Step 1
-Now that we've done an overview of the project, your goal is to add a web "view" using Spring Boot to the Blackjack game - because currently it can only be played in the console.  So, you will need to **create a new package called `adapter.in.web` for our web adapter**. This should live in the same `com.intuit.blackjack` package as our other adapter for the console view of the application.  
+Now that we've done an overview of the project, your goal is to add a web "view" using Spring Boot to the Blackjack game - because currently it can only be played in the console.  So, you will need to **create a new package called `infrastructure.adapter.in.web` for our web adapter**. This should live in the same `com.example` package as our other adapter for the console view of the application.  
 
-Remember that we are using hexagonal architecture here - where adapters essentially "adapt" the domain to their respective way of playing the game - whether it's the console or the web view.  This allows for re-use of the domain classes and a much better separation of concerns, along with making it easier to write better tests.
+Remember that we are using hexagonal architecture here - where adapters essentially "adapt" the domain to their respective way of interacting with banking application - whether it's the console or the web view.  This allows for re-use of the domain classes and a much better separation of concerns, along with making it easier to write better tests.
 
-You will notice the `src/main/java/com/intuit/blackjack/BlackjackGameApplication.java` - this is the driving class for Spring boot as you can see from the annotation.
+You will need to add a driving class for Spring boot - it can be called  `src/main/java/com/example/BankingWebApplication.java`
 
-**_You need to:_** add a bean to this class - try to figure out what should be added as a bean.  Hint: take a look at the Blackjack.java class which drives the console "way" of playing the game, as you build out the "web" way/adapter classes.
+**_You need to:_** add a bean to this class - try to figure out what should be added as a bean.  
 
-Then, inside the web package that you create you will need to create a controller class and a web view as well. For the controller class, name it `BlackjackController`.  This is where you will need to define your @PostMapping (s) and @GetMapping (s).  Add methods for `startGame`, `gameView`, `hitCommand`, `doneView`, `standCommand` - and map all of these to either a postmapping or getmapping.
+Then, inside the web package that you create you will need to create a controller class and a web view as well. For the controller class, name it `BankingApplicationController`.  This is where you will need to define your @PostMapping (s) and @GetMapping (s).  Add methods for `startBanking`, `AccountView`, `Deposit`, `Withdraw`, `View Transaction History` - and map all of these to either a postmapping or getmapping.
 
-The controller class constructor should be autowired to the bean that you create in the BlackjackGameApplication.java.  We wont tell you exactly what that bean should be, try to figure it out on your own!
+The controller class constructor should be autowired to the bean that you create in the BankingWebApplication.java class.  We wont tell you exactly what that bean should be, try to figure it out on your own!
 
 Inside your controller, you will need to update the Model as you go to respond to the 
 
@@ -102,7 +107,7 @@ In this page, you will want to direct to another page to display the final outco
 
 3. The "done" page - shows the outcome of the game.
 
-Note that you will want to utilize `Model` to reflect the **current** list of dealer cards and player cards.  Remember The reference to the Model in Spring MVC controller methods is automatically managed by Spring’s web framework. By providing this and other similar facilities, Spring enables clean, straightforward interactions between controllers and views, emphasizing separation of concerns and making your code easier to manage and maintain.
+Note that you will want to utilize `Model` to reflect the **current** list of transactions and account view.  Remember The reference to the Model in Spring MVC controller methods is automatically managed by Spring’s web framework. By providing this and other similar facilities, Spring enables clean, straightforward interactions between controllers and views, emphasizing separation of concerns and making your code easier to manage and maintain.
 
 What Happens Behind the Scenes
 When the Dispatcher Servlet handles a request that comes in to a controller method which declares a Model object as part of it's parameter list:
@@ -115,8 +120,7 @@ Also, remember that Spring MVC is included as part of Spring Web.
 
 Note that you can use Thymeleaf for your templating engine to construct a very simple view.  Remember from the material that we have already covered where Thymeleaf will look for files - in the `resources/templates` folder and also `resources/static` for static html files as well.
 
-
-
+<! --
 Now, you will also need a view helper class that will help you translate from the Game domain class to a view - go ahead and create a class called GameView inside your adapter.in.web folder.  This file will need a static method that will translate a Game object into a view.  You will want something like this - note that you will likely need some helper methods which we have listed here:
 
 ```
@@ -147,7 +151,7 @@ public class GameView{
 
 
 ```
-
+-->
 
 
 
