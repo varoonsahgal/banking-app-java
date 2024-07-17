@@ -34,8 +34,10 @@ Our domain classes are pure, but we need to organize our code in a way that is i
 
 # Enforcing the architecture with Archunit
 
-
 # Adding a Spring web adapter
+
+# Adding a JPA Persistence Layer
+
 
 
 
