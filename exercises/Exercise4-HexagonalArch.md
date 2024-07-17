@@ -31,13 +31,49 @@ Example: The User class should not import and use Spring annotations or JPA enti
 
 # Refactoring to use Hexagonal Architecture
 
-Our domain classes are pure, but we need to organize our code in a way that is in line with hexagonal architecture.  Let's repackage our application to be in line with hexagonal architecture
+Our domain classes are pure, but we need to organize our code in a way that is in line with hexagonal architecture.  Let's repackage our application to be in line with hexagonal architecture.
 
-# Enforcing the architecture with Archunit
+We want a separate package for our domain classes - that represents the "inside" of our hexagon, which of course is an imaginary boundary.
 
-# Adding a Spring web adapter
+Adapters sit outside the domain package and outside the hexagon in their own adapter package.
 
-# Adding a JPA Persistence Layer
+So, YOUR GOALS in this milestone are  2 things:
+
+1. Create a new `ConsoleAdapter` class that separates the UI logic from the core application logic to align with Hexagonal principles.
+
+Follow these steps to create that class:
+
+```
+Extract the console interaction logic from BankingApplication.
+Define methods to display menu and handle user choices.
+Delegate actions to the BankingService.
+Update the BankingApplication Class
+
+Instantiate the BankingService and ConsoleAdapter.
+Call consoleAdapter.run() to start the application.
+```
+
+2. Re-package the application to look like this and to be more in line with Hexagonal architecture:
+
+```
+src/main/java/com/example
+├── application
+│   ├── service
+│   │   └── BankingService.java
+├── domain
+│   ├── model
+│   │   ├── Balance.java
+│   │   ├── Transaction.java
+│   │   ├── User.java
+│   │   └── Username.java
+├── infrastructure
+│   ├── adapter
+│   │   └── ConsoleAdapter.java
+└── BankingApplication.java
+
+```
+
+
 
 
 
