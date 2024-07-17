@@ -30,7 +30,13 @@ Example: The User class should not import and use Spring annotations or JPA enti
 
 # Refactoring to use Hexagonal Architecture
 
-Our domain classes are pure, but we need to organize our code in a way that is in line with hexagonal architecture.
+Our domain classes are pure, but we need to organize our code in a way that is in line with hexagonal architecture.  Let's repackage our application to be in line with hexagonal architecture
+
+# Enforcing the architecture with Archunit
+
+
+# Adding a Spring web adapter
+
 
 
 
