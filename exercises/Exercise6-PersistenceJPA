@@ -106,12 +106,75 @@ public class TransactionResultDto {
 
     // Generate getter methods for the above fields
 }
+```
 
+3. Add a static method named from that takes a User and Transaction parameter and translates the information, storing the result in the fields. This is similar to the GameView (in the Web Adapter) where the of(Game) method translates the Game into a GameView DTO.
+
+4. Create an interface that extends a Spring Data JPA repository interface, like JpaRepository:
+
+```java
+package com.example.adapter.out.transactionmonitor;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface TransactionResultRepository extends JpaRepository<TransactionEntity, Long> {
+}
 
 ```
 
+Note that Spring Boot, through Spring Data JPA, automatically detects this interface during the component scan and provides the necessary implementation utilizing our H2 database whenever you instantiate an object of type TransactionResultRepository.
+
+So, we will use H2 as our in-memory database as we have done before, so be sure to provide the same settings that we have used in the past in your application.properties file as well. Spring will autodetect and wire up the H2 database based on those settings for you.
+
+The generated implementation includes all the CRUD methods defined in JpaRepository, such as save(), findById(), findAll(), deleteById(), and more. This is KEY, so you don't have to implement this stuff yourself and write SQL! Amazing, right?
+
+5. Then, provide an implementation of the TransactionMonitor class that implements transactionCompleted and invokes the methods that JPA gives you for free:
+
+```java
+public class PersistTransactionMonitor implements TransactionMonitor {
+
+    private final TransactionResultRepository transactionResultRepository;
+
+    public PersistTransactionMonitor(TransactionResultRepository transactionResultRepository) {
+        this.transactionResultRepository = transactionResultRepository;
+    }
+
+    @Override
+    public void transactionCompleted(User user, Transaction transaction) {
+        TransactionResultDto dto = TransactionResultDto.from(user, transaction);
+        TransactionEntity entity = new TransactionEntity(dto);
+        transactionResultRepository.save(entity);
+    }
+}
+```
+
+The transactionCompleted method should convert the incoming User and Transaction parameters to a DTO. Then, you will want to send that DTO to the database utilizing the methods that JPA gives you.
+
+6. Change the createUser method in the BankingApplication so that an instance of your PersistTransactionMonitor is passed into the User's constructor.
 
 
+# Summary
+
+To summarize, here are the key elements that we are using and why:
+
+1. DTO (Data Transfer Object): This will represent the data structure used to transfer data between the layers of the application. In our case, our DTO will have the details of the transaction outcome - so something like this:
+
+```java
+public class TransactionResultDto {
+    private final String username;
+    private final String transactionType;
+    private final String amount;
+    private final String balance;
+
+    // Constructor and getters
+}
+```
+
+The DTO should live outside the domain, in an adapter package. So, put it in an adapter.out.transactionmonitor subpackage.
+
+2. Port: An interface that defines the operations related to persisting and retrieving data. It will reside in the domain layer.
+
+3. Adapter: The implementation of the port. This uses JPA to persist and retrieve data. It will reside in the infrastructure layer outside of our domain.
 
 
 
