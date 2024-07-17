@@ -28,7 +28,9 @@ No Dependency on Frameworks:
 5. The class should not depend on external libraries or frameworks, except for basic utilities like collections or basic types.
 Example: The User class should not import and use Spring annotations or JPA entities directly.
 
-# Characteristics of pure domain classes
+# Refactoring to use Hexagonal Architecture
+
+Our domain classes are pure, but we need to organize our code in a way that is in line with hexagonal architecture.
 
 
 
