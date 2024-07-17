@@ -14,7 +14,7 @@ There are 3 candidates for primitive obsession that you now need to fix:
 2. `private double balance;` - why?  Using double for balances is a potential issue because financial values require
    precision and often have specific rules for handling (e.g., rounding, currency formats).
 
-      Your task: Create a Username value object that encapsulates any validation logic.
+      Your task: Create a Balance value object that encapsulates any validation logic.
 
 
 3. `private List<String> transactionHistory;` - why? Storing transaction history as a List<String> may be too simplistic
